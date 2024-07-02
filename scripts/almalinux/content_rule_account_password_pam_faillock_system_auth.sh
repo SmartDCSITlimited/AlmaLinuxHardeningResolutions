@@ -12,7 +12,7 @@ authselect enable-feature with-faillock
 authselect apply-changes -b
 else
 
-AUTH_FILES=("/etc/pam.d/system-auth" "/etc/pam.d/password-auth")
+AUTH_FILES=("etc/pam.d/system-auth" "etc/pam.d/password-auth")
 for pam_file in "${AUTH_FILES[@]}"
 do
     if ! grep -qE '^\s*auth\s+required\s+pam_faillock\.so\s+(preauth silent|authfail).*$' "$pam_file" ; then

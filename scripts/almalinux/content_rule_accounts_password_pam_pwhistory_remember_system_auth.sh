@@ -46,8 +46,8 @@ if [ -f /usr/bin/authselect ]; then
 
             authselect apply-changes -b --backup=after-hardening-custom-profile
         fi
-        PAM_FILE_NAME=$(basename "/etc/pam.d/system-auth")
-        PAM_FILE_PATH="/etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
+        PAM_FILE_NAME=$(basename "etc/pam.d/system-auth")
+        PAM_FILE_PATH="etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
 
         authselect apply-changes -b
         if ! grep -qP '^\s*password\s+'"$var_password_pam_remember_control_flag"'\s+pam_pwhistory.so\s*.*' "$PAM_FILE_PATH"; then
@@ -66,23 +66,23 @@ if [ -f /usr/bin/authselect ]; then
         fi
     fi
 else
-    if ! grep -qP '^\s*password\s+'"$var_password_pam_remember_control_flag"'\s+pam_pwhistory.so\s*.*' "/etc/pam.d/system-auth"; then
+    if ! grep -qP '^\s*password\s+'"$var_password_pam_remember_control_flag"'\s+pam_pwhistory.so\s*.*' "etc/pam.d/system-auth"; then
         # Line matching group + control + module was not found. Check group + module.
-        if [ "$(grep -cP '^\s*password\s+.*\s+pam_pwhistory.so\s*' "/etc/pam.d/system-auth")" -eq 1 ]; then
+        if [ "$(grep -cP '^\s*password\s+.*\s+pam_pwhistory.so\s*' "etc/pam.d/system-auth")" -eq 1 ]; then
             # The control is updated only if one single line matches.
-            sed -i -E --follow-symlinks 's/^(\s*password\s+).*(\bpam_pwhistory.so.*)/\1'"$var_password_pam_remember_control_flag"' \2/' "/etc/pam.d/system-auth"
+            sed -i -E --follow-symlinks 's/^(\s*password\s+).*(\bpam_pwhistory.so.*)/\1'"$var_password_pam_remember_control_flag"' \2/' "etc/pam.d/system-auth"
         else
-            LAST_MATCH_LINE=$(grep -nP "^password.*requisite.*pam_pwquality\.so" "/etc/pam.d/system-auth" | tail -n 1 | cut -d: -f 1)
+            LAST_MATCH_LINE=$(grep -nP "^password.*requisite.*pam_pwquality\.so" "etc/pam.d/system-auth" | tail -n 1 | cut -d: -f 1)
             if [ ! -z $LAST_MATCH_LINE ]; then
-                sed -i --follow-symlinks $LAST_MATCH_LINE' a password     '"$var_password_pam_remember_control_flag"'    pam_pwhistory.so' "/etc/pam.d/system-auth"
+                sed -i --follow-symlinks $LAST_MATCH_LINE' a password     '"$var_password_pam_remember_control_flag"'    pam_pwhistory.so' "etc/pam.d/system-auth"
             else
-                echo 'password    '"$var_password_pam_remember_control_flag"'    pam_pwhistory.so' >> "/etc/pam.d/system-auth"
+                echo 'password    '"$var_password_pam_remember_control_flag"'    pam_pwhistory.so' >> "etc/pam.d/system-auth"
             fi
         fi
     fi
 fi
 
-PWHISTORY_CONF="/etc/security/pwhistory.conf"
+PWHISTORY_CONF="etc/security/pwhistory.conf"
 if [ -f $PWHISTORY_CONF ]; then
     regex="^\s*remember\s*="
     line="remember = $var_password_pam_remember"
@@ -91,8 +91,8 @@ if [ -f $PWHISTORY_CONF ]; then
     else
         sed -i --follow-symlinks 's|^\s*\(remember\s*=\s*\)\(\S\+\)|\1'"$var_password_pam_remember"'|g' $PWHISTORY_CONF
     fi
-    if [ -e "/etc/pam.d/system-auth" ] ; then
-        PAM_FILE_PATH="/etc/pam.d/system-auth"
+    if [ -e "etc/pam.d/system-auth" ] ; then
+        PAM_FILE_PATH="etc/pam.d/system-auth"
         if [ -f /usr/bin/authselect ]; then
 
             if ! authselect check; then
@@ -119,8 +119,8 @@ if [ -f $PWHISTORY_CONF ]; then
 
                 authselect apply-changes -b --backup=after-hardening-custom-profile
             fi
-            PAM_FILE_NAME=$(basename "/etc/pam.d/system-auth")
-            PAM_FILE_PATH="/etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
+            PAM_FILE_NAME=$(basename "etc/pam.d/system-auth")
+            PAM_FILE_PATH="etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
 
             authselect apply-changes -b
         fi
@@ -133,10 +133,10 @@ if [ -f $PWHISTORY_CONF ]; then
             authselect apply-changes -b
         fi
     else
-        echo "/etc/pam.d/system-auth was not found" >&2
+        echo "etc/pam.d/system-auth was not found" >&2
     fi
 else
-    PAM_FILE_PATH="/etc/pam.d/system-auth"
+    PAM_FILE_PATH="etc/pam.d/system-auth"
     if [ -f /usr/bin/authselect ]; then
 
         if ! authselect check; then
@@ -163,8 +163,8 @@ else
 
             authselect apply-changes -b --backup=after-hardening-custom-profile
         fi
-        PAM_FILE_NAME=$(basename "/etc/pam.d/system-auth")
-        PAM_FILE_PATH="/etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
+        PAM_FILE_NAME=$(basename "etc/pam.d/system-auth")
+        PAM_FILE_PATH="etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
 
         authselect apply-changes -b
     fi

@@ -13,14 +13,14 @@ printf -v formatted_output "%s %s" "$stripped_key" "$var_accounts_maximum_age_lo
 # If the key exists, change it. Otherwise, add it to the config_file.
 # We search for the key string followed by a word boundary (matched by \>),
 # so if we search for 'setting', 'setting2' won't match.
-if LC_ALL=C grep -q -m 1 -i -e "^PASS_MAX_DAYS\\>" "/etc/login.defs"; then
+if LC_ALL=C grep -q -m 1 -i -e "^PASS_MAX_DAYS\\>" "etc/login.defs"; then
     escaped_formatted_output=$(sed -e 's|/|\\/|g' <<< "$formatted_output")
-    LC_ALL=C sed -i --follow-symlinks "s/^PASS_MAX_DAYS\\>.*/$escaped_formatted_output/gi" "/etc/login.defs"
+    LC_ALL=C sed -i --follow-symlinks "s/^PASS_MAX_DAYS\\>.*/$escaped_formatted_output/gi" "etc/login.defs"
 else
-    if [[ -s "/etc/login.defs" ]] && [[ -n "$(tail -c 1 -- "/etc/login.defs" || true)" ]]; then
-        LC_ALL=C sed -i --follow-symlinks '$a'\\ "/etc/login.defs"
+    if [[ -s "etc/login.defs" ]] && [[ -n "$(tail -c 1 -- "etc/login.defs" || true)" ]]; then
+        LC_ALL=C sed -i --follow-symlinks '$a'\\ "etc/login.defs"
     fi
-    printf '%s\n' "$formatted_output" >> "/etc/login.defs"
+    printf '%s\n' "$formatted_output" >> "etc/login.defs"
 fi
 
 else

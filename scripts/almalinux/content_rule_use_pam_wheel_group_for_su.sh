@@ -4,7 +4,7 @@ if rpm --quiet -q pam; then
 var_pam_wheel_group_for_su='sugroup'
 
 
-PAM_CONF=/etc/pam.d/su
+PAM_CONF=etc/pam.d/su
 
 pamstr=$(grep -P '^auth\s+required\s+pam_wheel\.so\s+(?=[^#]*\buse_uid\b)(?=[^#]*\bgroup=)' ${PAM_CONF})
 if [ -z "$pamstr" ]; then

@@ -4,7 +4,7 @@ if rpm --quiet -q pam; then
 var_pam_wheel_group_for_su='sugroup'
 
 
-if ! grep -q "^${var_pam_wheel_group_for_su}:[^:]*:[^:]*:[^:]*" /etc/group; then
+if ! grep -q "^${var_pam_wheel_group_for_su}:[^:]*:[^:]*:[^:]*" etc/group; then
     groupadd ${var_pam_wheel_group_for_su}
 fi
 

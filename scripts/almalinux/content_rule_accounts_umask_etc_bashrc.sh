@@ -8,10 +8,10 @@ var_accounts_user_umask='027'
 
 
 
-grep -q "^[^#]*\bumask" /etc/bashrc && \
-  sed -i -E -e "s/^([^#]*\bumask).*/\1 $var_accounts_user_umask/g" /etc/bashrc
+grep -q "^[^#]*\bumask" etc/bashrc && \
+  sed -i -E -e "s/^([^#]*\bumask).*/\1 $var_accounts_user_umask/g" etc/bashrc
 if ! [ $? -eq 0 ]; then
-    echo "umask $var_accounts_user_umask" >> /etc/bashrc
+    echo "umask $var_accounts_user_umask" >> etc/bashrc
 fi
 
 else

@@ -18,7 +18,7 @@ authselect enable-feature with-faillock
 authselect apply-changes -b
 else
 
-AUTH_FILES=("/etc/pam.d/system-auth" "/etc/pam.d/password-auth")
+AUTH_FILES=("etc/pam.d/system-auth" "etc/pam.d/password-auth")
 for pam_file in "${AUTH_FILES[@]}"
 do
     if ! grep -qE '^\s*auth\s+required\s+pam_faillock\.so\s+(preauth silent|authfail).*$' "$pam_file" ; then
@@ -31,9 +31,9 @@ done
 
 fi
 
-AUTH_FILES=("/etc/pam.d/system-auth" "/etc/pam.d/password-auth")
+AUTH_FILES=("etc/pam.d/system-auth" "etc/pam.d/password-auth")
 
-FAILLOCK_CONF="/etc/security/faillock.conf"
+FAILLOCK_CONF="etc/security/faillock.conf"
 if [ -f $FAILLOCK_CONF ]; then
     regex="^\s*unlock_time\s*="
     line="unlock_time = $var_accounts_passwords_pam_faillock_unlock_time"
@@ -73,7 +73,7 @@ if [ -f $FAILLOCK_CONF ]; then
                     authselect apply-changes -b --backup=after-hardening-custom-profile
                 fi
                 PAM_FILE_NAME=$(basename "$pam_file")
-                PAM_FILE_PATH="/etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
+                PAM_FILE_PATH="etc/authselect/$CURRENT_PROFILE/$PAM_FILE_NAME"
 
                 authselect apply-changes -b
             fi
